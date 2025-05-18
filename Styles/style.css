@@ -26,14 +26,12 @@ body{
     width: 80%;
     height: 150px;
     margin-right: 10px;
-    border: 1px solid red;
     color: white;
     background:url(../Images/photo-1518773553398-650c184e0bb3.avif) no-repeat center center / cover;
 }
 .user-pic{
     width: 20%;
     height: 150px;
-    border: 1px solid blue;
     background: url(../Images/photo-1582789991349-8f8e6eb15308.avif) no-repeat center center/cover
     ;
 }
@@ -53,7 +51,7 @@ body{
 nav ul{
     display: flex;
     margin: 10px 0;
-    background: gray;
+    background: #b8b6b6;
 }
 nav li a{
     display: inline-block;
