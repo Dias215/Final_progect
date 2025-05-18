@@ -136,7 +136,8 @@ window.addEventListener('DOMContentLoaded', function() {
     
     function updateTimee() {
         const pastedTime = Date.now() - game.startTime;
-        timerDisplay.innerText = `Время: ${Math.floor((pastedTime/1000) / 60)}:${( pastedTime
+        timerDisplay.innerText =
+         `Время: ${Math.floor((pastedTime/1000) / 60)}:${Math.floor((pastedTime/1000)
          % 60).toString().padStart(2, "0")}`;
 
     }
