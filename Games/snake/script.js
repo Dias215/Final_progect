@@ -102,6 +102,7 @@ function gameOver() {
 
 function simulatekey(key) {
     const eventkey = new KeyboardEvent('Keydown', { key })
+    document.dispatchEvent(eventkey);
 }
 
 boarder.addEventListener('touchstart', e=> {
@@ -114,7 +115,6 @@ boarder.addEventListener('touchend', e=> {
     const endTouch = e.changedTouched[0];
     const swipeX = touch.startX - endTouch.clientX;
     const swipeY = touch.startY - endTouch.clientY;
-});
 
     if(Math.abs(swipeX) > Math.abs(swipeY)) {
         if (swipeX > 20) simulatekey('ArrowLeft');
@@ -123,6 +123,9 @@ boarder.addEventListener('touchend', e=> {
         if (swipeY > 20)  simulatekey('ArrowUp');
         else if (swipeY < -20) simulatekey('ArrowDown');
     }
+});
+
+    
 
 document.addEventListener('touchstart', () => {
     if(gameRunning) return;
