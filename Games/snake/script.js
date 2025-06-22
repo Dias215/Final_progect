@@ -2,7 +2,9 @@ let intervaId = null;
 const scoreEl = document.getElementById('score');
 const overlay = document.getElementById('overlay')
 const boarder = document.querySelector('canvas');
-const size = 25, colls = 30, rows = 50;
+const size = 25;
+const rows = Math.floor((window.innerWidth - 50)/size),
+      colls = Math.floor((window.innerHeight - 100)/size);
 boarder.width = size * rows;
 boarder.height = size * colls;
 let directionChanged = false;
@@ -99,13 +101,13 @@ function simulatekey(key) {
     const eventkey = new KeyboardEvent('Keydown', { key })
 }
 
-canvas.addEventListener('touchstart', e=> {
+boarder.addEventListener('touchstart', e=> {
     const startTouch = e.touches[0];
     touch.startX = startTouch.clientX;
     touch.startY = startTouch.clientY;
 });
 
-canvas.addEventListener('touchend', e=> {
+boarder.addEventListener('touchend', e=> {
     const endTouch = e.changedTouched[0];
     const swipeX = touch.startX - endTouch.clientX;
     const swipeY = touch.startY - endTouch.clientY;
@@ -119,7 +121,7 @@ canvas.addEventListener('touchend', e=> {
         else if (swipeY < -20) simulatekey('ArrowDown');
     }
 
-canvas.addEventListener('touchstart', () => {
+boarder.addEventListener('touchstart', () => {
     if(gameRunning) return;
     const eventStart = new KeyboardEvent('keydown', {key:' ', code: 'Space'});
     document.dispatchEvent(eventStart);
