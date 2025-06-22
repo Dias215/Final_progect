@@ -5,9 +5,15 @@ const boarder = document.querySelector('canvas');
 const size = 25, colls = 30, rows = 50;
 boarder.width = size * rows;
 boarder.height = size * colls;
+let directionChanged = false;
 
 const c = boarder.getContext('2d');
 let gameRunning = false;
+
+const touch = {
+    startX:0,
+    startY:0
+};
 
 const snake = {
     body: [{
@@ -49,6 +55,7 @@ function updateScore() {
     scoreEl.textContent = `Score: ${snake.length}`;
 }
 function draw() {
+    directionChanged = false;
     c.clearRect(0, 0, boarder.width,boarder.height);
     c.fillStyle = 'red';
 
@@ -86,8 +93,37 @@ function gameOver() {
  overlay.innerHTML = 'GAME OVER<br><span class ="small">Press Space</span>';
  overlay.classList.add('show');
  gameRunning = false;
-
 }
+
+function simulatekey(key) {
+    const eventkey = new KeyboardEvent('Keydown', { key })
+}
+
+canvas.addEventListener('touchstart', e=> {
+    const startTouch = e.touches[0];
+    touch.startX = startTouch.clientX;
+    touch.startY = startTouch.clientY;
+});
+
+canvas.addEventListener('touchend', e=> {
+    const endTouch = e.changedTouched[0];
+    const swipeX = touch.startX - endTouch.clientX;
+    const swipeY = touch.startY - endTouch.clientY;
+});
+
+    if(Math.abs(swipeX) > Math.abs(swipeY)) {
+        if (swipeX > 20) simulatekey('ArrowLeft');
+        else if (swipeX < -20) simulatekey('ArrowRight');
+    } else {
+        if (swipeY > 20)  simulatekey('ArrowUp');
+        else if (swipeY < -20) simulatekey('ArrowDown');
+    }
+
+canvas.addEventListener('touchstart', () => {
+    if(gameRunning) return;
+    const eventStart = new KeyboardEvent('keydown', {key:' ', code: 'Space'});
+    document.dispatchEvent(eventStart);
+});
 function collision(head, tail) {
     if(head.x < 0 || head.y < 0 || head.x + size > boarder.width || head.y + size > boarder.height) {
         return true
@@ -116,22 +152,26 @@ document.addEventListener('keydown', (e)=> {
         startGame();
     }
 
+    if(directionChanged)return;
+
     if ((e.key == 'ArrowLeft' || e.key == 'a') && dir.dx != 1) {
         dir.dx = -1;
         dir.dy = 0;
-
+        directionChanged = true;
     }
     else if ((e.key == 'ArrowRight' || e.key == 'd') && dir.dx != -1) {
         dir.dx = 1;
         dir.dy = 0;
-        
+        directionChanged = true;
     } else if ((e.key == 'ArrowUp' || e.key == 'w') && dir.dy != 1) {
         dir.dx = 0;
         dir.dy = -1;
-
+        directionChanged = true;
     }
     else if ((e.key == 'ArrowDown' || e.key == 's') && dir.dy !=-1) {
         dir.dx = 0;
         dir.dy = 1;
+        directionChanged = true;d
     }
 })
+

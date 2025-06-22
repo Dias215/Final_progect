@@ -8,6 +8,18 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+#record {
+    color: #333;
+    font-size: 2rem;
+    text-shadow: 0 0 20px rgba(184, 183, 183, 0.3);
+    background-color: rgba( 255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 20px;
 }
 .container{
     text-align: center;
@@ -15,6 +27,9 @@ body{
 h1{
     font-size: 3rem;
     color: #333;
+    text-shadow: 0 0 20px rgba(184, 183, 183, 0.3);
+    background-color: rgba( 255, 255, 255, 0.8);
+    border-radius: 15px;
 }
 .game-box{
     display: flex;
@@ -76,7 +91,7 @@ p{
     border-radius: 5px;
     transition: opacity 5s ease;
 }
-new-game:hover{
+#new-game:hover{
     opacity: .7;
 }
 .hidden{

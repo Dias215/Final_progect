@@ -1,6 +1,7 @@
 const MIN_NUMBER = 1,
       MAX_NUMBER = 100;
 let answer = parseInt((Math.random() * (MAX_NUMBER - MIN_NUMBER) + 1));
+let highScore = localStorage.getItem('guessNumberRecord') || Infinity;
 console.log(answer);
 let attempts = 0;
 const guessInput = document.getElementById("guess-input"),
@@ -9,6 +10,12 @@ const guessInput = document.getElementById("guess-input"),
       hint = document.getElementById("hint"),
       attemptsDisplay = document.getElementById("attempts"),
       newGame = document.getElementById("new-game");
+      recordEl = document.getElementById('record')
+      guessInput.disabled = true
+
+if(highScore != Infinity) {
+    recordEl.textContent = `Record: ${highScore}`;
+}
 
 console.log("Here am I");
 guessInput.disabled = true;
@@ -41,6 +48,12 @@ function checkGuess(){
         submitGuess.classList.toggle("hidden");
         newGame.classList.toggle("hidden")
         guessInput.disable = true;
+
+        if(attempts < highScore) {
+            highScore = attempts;
+            localStorage.setItem(`guessNumberRecord`, highScore);
+            recordEl.textContent = `Record: ${highScore}`;
+        }
     }   else if (userGuess > answer) {
         feedback.textContent == "";
         hint.textContent = "Число меньше!";
@@ -50,3 +63,4 @@ function checkGuess(){
     }
     guessInput.value = "";
 }
+
