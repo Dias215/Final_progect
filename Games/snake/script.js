@@ -11,6 +11,9 @@ let directionChanged = false;
 
 const c = boarder.getContext('2d');
 let gameRunning = false;
+let hightScore = +(localStorage.getItem('snakeRecord')) || 1;
+recordEl.textContent = `Record: ${hightScore}`;
+const gameSpeed = window.innerWidth < 900 ? 160 : 80;
 
 const touch = {
     startX:0,
@@ -39,7 +42,7 @@ const food = {
 function startGame() {
     resetGame();
     food.placeFood();
-    intervaId = setInterval(draw, 100);
+    intervaId = setInterval(draw, gameSpeed);
     overlay.classList.remove('show');
     gameRunning = true;
 }
@@ -121,7 +124,7 @@ boarder.addEventListener('touchend', e=> {
         else if (swipeY < -20) simulatekey('ArrowDown');
     }
 
-boarder.addEventListener('touchstart', () => {
+document.addEventListener('touchstart', () => {
     if(gameRunning) return;
     const eventStart = new KeyboardEvent('keydown', {key:' ', code: 'Space'});
     document.dispatchEvent(eventStart);
