@@ -11,8 +11,8 @@ let directionChanged = false;
 
 const c = boarder.getContext('2d');
 let gameRunning = false;
-let hightScore = +(localStorage.getItem('snakeRecord')) || 1;
-recordEl.textContent = `Record: ${hightScore}`;
+// let hightScore = +(localStorage.getItem('snakeRecord')) || 1;
+// recordEl.textContent = `Record: ${hightScore}`;
 const gameSpeed = window.innerWidth < 900 ? 160 : 80;
 
 const touch = {
