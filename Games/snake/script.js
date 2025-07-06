@@ -66,8 +66,6 @@ function draw() {
 
     c.fillRect(food.x, food.y, size, size);
 
-
-
     c.fillStyle = 'yellow';
     for(let i = 0; i < snake.body.length; i++){
         const segment = snake.body[i];
@@ -82,16 +80,26 @@ function draw() {
         gameOver();
         return;
     }
-snake.body.unshift(newHead);
-    
+    snake.body.unshift(newHead);
+    if (snake.body[0].x == food.x && snake.body[0].y == food.y) {
+        snake.length++;
+        food.placeFood();
+        updateScore();
+    } else {
+        snake.body.pop();
+    }
+}
 
-
-if (snake.body[0].x == food.x && snake.body[0].y == food.y) {
-    snake.length++;
-    food.placeFood();
-    updateScore();
-} else {
-    snake.body.pop();
+function collision(head, tail) {
+    if(head.x < 0 || head.y < 0 || head.x + size > boarder.width || head.y + size > boarder.height) {
+        return true
+    }
+    for(let i = 0; i < tail.length; i++) {
+        if(head.x == tail[i].x && head.y == tail[i].y) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function gameOver() {
@@ -101,7 +109,7 @@ function gameOver() {
 }
 
 function simulatekey(key) {
-    const eventkey = new KeyboardEvent('Keydown', { key })
+    const eventkey = new KeyboardEvent('keydown', { key })
     document.dispatchEvent(eventkey);
 }
 
@@ -112,7 +120,7 @@ boarder.addEventListener('touchstart', e=> {
 });
 
 boarder.addEventListener('touchend', e=> {
-    const endTouch = e.changedTouched[0];
+    const endTouch = e.changedTouches[0];
     const swipeX = touch.startX - endTouch.clientX;
     const swipeY = touch.startY - endTouch.clientY;
 
@@ -127,31 +135,10 @@ boarder.addEventListener('touchend', e=> {
 
     
 
-document.addEventListener('touchstart', () => {
-    if(gameRunning) return;
-    const eventStart = new KeyboardEvent('keydown', {key:' ', code: 'Space'});
-    document.dispatchEvent(eventStart);
+document.addEventListener('touchstart', ()=> {
+    const startEvent = new KeyboardEvent('keydown', {key: '', code: 'Space'});
+    document.dispatchEvent(startEvent);
 });
-function collision(head, tail) {
-    if(head.x < 0 || head.y < 0 || head.x + size > boarder.width || head.y + size > boarder.height) {
-        return true
-    }
-    for(let i = 0; i < tail.length; i++) {
-        if(head.x == tail[i].x && head.y == tail[i].y) {
-            return true;
-        }
-    }
-}
-    return false;
-
-}
-
-
-food.placeFood();
-
-
-
-
 
 document.addEventListener('keydown', (e)=> {
     const dir = snake.diraction;
@@ -179,7 +166,7 @@ document.addEventListener('keydown', (e)=> {
     else if ((e.key == 'ArrowDown' || e.key == 's') && dir.dy !=-1) {
         dir.dx = 0;
         dir.dy = 1;
-        directionChanged = true;d
+        directionChanged = true;
     }
 })
 
