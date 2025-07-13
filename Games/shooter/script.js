@@ -231,7 +231,7 @@ function shoot(x, y) {
         player.x,
         player.y,
         5,
-        '#fff',
+        '#fff', 
         velocity
     ));
 }
